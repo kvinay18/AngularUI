@@ -1,0 +1,473 @@
+<app-breadcrumbs title="Tasks List" [breadcrumbItems]="breadCrumbItems"></app-breadcrumbs>
+
+<div class="row" *ngIf="taskCounts">
+    <div class="col-xxl-3 col-sm-6">
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="fw-medium text-muted mb-0">Total Tasks</p>
+                        <h2 class="mt-4 ff-secondary fw-semibold"><span *ngIf="taskCounts.total && isfirstRender"
+                                [CountTo]="taskCounts.total" class="counter-value" [from]="0"
+                                [duration]="1"></span><span *ngIf="taskCounts.total==0 || !isfirstRender">{{taskCounts?.total}}</span>
+                        </h2>
+                        <p class="mb-0 text-muted"><span class="badge bg-light mb-0"
+                                [ngClass]="taskCounts.perTotal > 0 ? 'text-success' : (taskCounts.perTotal == 0 ? 'text-info' :  'text-danger')">
+                                <i class=" align-middle"
+                                    [ngModel]="taskCounts.perTotal > 0 ? 'ri-arrow-up-line' : (taskCounts.perTotal == 0 ? '' :  'ri-arrow-down-line')"
+                                    *ngIf="taskCounts.perTotal"></i>
+                                {{taskCounts.perTotal}} %
+                            </span> vs. previous month</p>
+                    </div>
+                    <div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-info rounded-circle fs-4">
+                                <i class="ri-ticket-2-line"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-6">
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="fw-medium text-muted mb-0">InProgress Tasks</p>
+                        <h2 class="mt-4 ff-secondary fw-semibold"><span *ngIf="taskCounts.inProgress && isfirstRender"
+                                [CountTo]="taskCounts.inProgress" class="counter-value" [from]="0"
+                                [duration]="1"></span><span
+                                *ngIf="taskCounts.inProgress==0 || !isfirstRender">{{taskCounts.inProgress}}</span></h2>
+                        <p class="mb-0 text-muted"><span class="badge bg-light mb-0"
+                                [ngClass]="taskCounts.perInProgress > 0 ? 'text-success' : (taskCounts.perInProgress == 0 ? 'text-info' :  'text-danger')">
+                                <i class=" align-middle"
+                                    [ngModel]="taskCounts.perInProgress > 0 ? 'ri-arrow-up-line' : (taskCounts.perInProgress == 0 ? '' :  'ri-arrow-down-line')"
+                                    *ngIf="taskCounts.perInProgress && taskCounts.perInProgress > 0"></i>
+                                {{taskCounts.perInProgress}} %
+                            </span> vs. previous month</p>
+                    </div>
+                    <div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-warning rounded-circle fs-4">
+                                <i class="mdi mdi-timer-sand"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-6">
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="fw-medium text-muted mb-0">Completed Tasks</p>
+                        <h2 class="mt-4 ff-secondary fw-semibold"><span #countTo *ngIf="taskCounts.completed && isfirstRender"
+                                [CountTo]="taskCounts.completed" class="counter-value" [from]="0"
+                                [duration]="1"></span><span
+                                *ngIf="taskCounts?.completed==0 || !isfirstRender">{{taskCounts.completed}}</span></h2>
+                      
+                        <p class="mb-0 text-muted"><span class="badge bg-light mb-0"
+                                [ngClass]="taskCounts.perCompleted > 0 ? 'text-success' : (taskCounts.perCompleted == 0 ? 'text-info' :  'text-danger')">
+                                <i class="align-middle"
+                                    [ngModel]="taskCounts.perCompleted > 0 ? 'ri-arrow-up-line' : (taskCounts.perCompleted == 0 ? '' :  'ri-arrow-down-line')"
+                                    *ngIf="taskCounts.perCompleted && taskCounts.perCompleted > 0"></i>
+                                {{taskCounts.perCompleted}} %
+                            </span> vs. previous month</p>
+                    </div>
+                    <div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-success rounded-circle fs-4">
+                                <i class="ri-checkbox-circle-line"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xxl-3 col-sm-6">
+        <div class="card card-animate">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <p class="fw-medium text-muted mb-0">Over Due</p>
+                        <h2 class="mt-4 ff-secondary fw-semibold"><span *ngIf="taskCounts.overDuePercent && isfirstRender"
+                                [CountTo]="taskCounts.overDuePercent" class="counter-value" [from]="0"
+                                [duration]="1"></span><span
+                                *ngIf="taskCounts.overDuePercent==0 || !isfirstRender">{{taskCounts.overDuePercent}}</span>%</h2>
+                        <p class="mb-0 text-muted"><span class="badge bg-light text-success mb-0"
+                                [ngClass]="taskCounts.perMonOverDue > 0 ? 'text-success' : (taskCounts.perMonOverDue == 0 ? 'text-info' :  'text-danger')">
+                                <i class="align-middle"
+                                    [ngModel]="taskCounts.perMonOverDue > 0 ? 'ri-arrow-up-line' : (taskCounts.perMonOverDue == 0 ? '' :  'ri-arrow-down-line')"></i>
+                                {{taskCounts.perMonOverDue}} %
+                            </span> vs. previous month</p>
+                    </div>
+                    <div>
+                        <div class="avatar-sm flex-shrink-0">
+                            <span class="avatar-title bg-danger rounded-circle fs-4">
+                                <i class="ri-calendar-2-line"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" id="tasksList">
+            <div class="card-header border-0">
+                <div class="d-flex align-items-center">
+                    <h5 class="card-title mb-0 flex-grow-1">All Tasks</h5>
+                </div>
+            </div>
+
+            <div class="card-body border border-dashed border-end-0 border-start-0">
+                <form>
+                    <div class="d-flex justify-content-between align-items-center g-3">
+                        <div class="d-flex align-items-center">
+                            <div class="search-box">
+                                <input class="form-control" type="text" [(ngModel)]="projectSearchRequest.stringSearch"
+                                    [ngModelOptions]="{standalone: true}" (keyup)="currentUserTasks()"
+                                    placeholder="Search for tasks or something...">
+                                <i class="ri-search-line search-icon"></i>
+                            </div>
+                        </div>
+
+
+                        <div class="filter-btn" ngbDropdown>
+                            <button class="btn btn-soft-info arrow-none" id="user-filter" data-bs-toggle="filter"
+                                aria-expanded="false" ngbDropdownToggle>
+                                <i class="mdi mdi-filter-variant"></i>
+                            </button>
+                            <div class="dropdown-menu p-0" aria-labelledby="user-filter" id="filter" ngbDropdownMenu>
+                                <div class="card m-0 p-2" style="width: 350px;">
+
+                                    <div class="card-header d-flex justify-content-between ">
+                                        <span>Filter</span>
+                                        <a href="javascript:void(0);" style="text-decoration: none;">
+                                            <i class="mdi mdi-dots-horizontal "></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="row mb-3">
+                                            <div class="col-6">
+                                                <div class="form">
+                                                    <div>
+                                                        <label for="project" class="">Project</label>
+                                                    </div>
+                                                    <select class="form-select"
+                                                        [(ngModel)]="projectSearchRequest.projectId"
+                                                        [ngModelOptions]="{standalone: true}" #project>
+                                                        <option selected [value]="0">None</option>
+                                                        <option *ngFor="let project of userProjects"
+                                                            value="{{project.id}}"> {{project.name}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6">
+
+                                                <div class="form">
+                                                    <div>
+                                                        <label for="Status" class="">Status</label>
+                                                    </div>
+                                                    <select class="form-select" id="Status"
+                                                        [(ngModel)]="projectSearchRequest.status"
+                                                        [ngModelOptions]="{standalone: true}">
+                                                        <option selected disabled value="0">None</option>
+                                                        <option *ngFor="let currentStatus of status"
+                                                            value="{{currentStatus.value}}">
+                                                            {{currentStatus.displayName}}</option>
+                                                    </select>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-between">
+                                            <a href="javascript:void(0);" (click)="resetFilters()">Reset </a>
+                                            <a href="javascript:void(0);" (click)="currentUserTasks()">Apply Filter</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive table-card mb-2">
+                    <table class="table">
+                        <thead>
+                            <tr class="bg-light text-muted">
+                                <th class="sort" sortable="taskId">ID</th>
+                                <th class="sort" sortable="project">Project</th>
+                                <th class="sort" sortable="task">Task</th>
+                                <th class="sort" sortable="creater">Created By</th>
+                                <th class="sort" sortable="dueDate">Due Date</th>
+                                <th class="sort" sortable="status">Status</th>
+                                <th class="sort" sortable="priority">Priority</th>
+                                <th class="sort">Mark as Completed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of userTaskList" [ngClass]="{'bg-soft-primary': data.isSelected}">
+                                <td>
+                                    <a href="javascript:void(0);"
+                                        (click)="openViewModal(viewTask, data)">#{{data.calcTaskId}}</a>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);"
+                                        [routerLink]="['/projects/overview',data.projectDetail.id]">{{data.projectDetail?.name}}</a>
+                                </td>
+                                <td>
+                                    {{data.name}}
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center" (click)="viewprofile(profile, data.user)">
+                                        <div class="avatar-xs flex-shrink-0 me-3">
+                                            <img src="data.user?.profilePictureDataUrl" alt=""
+                                                class="rounded-circle img-fluid"
+                                                *ngIf="data.user?.profilePictureDataUrl">
+                                            <div class="avatar-title rounded-circle bg-secondary"
+                                                *ngIf="!data.user?.profilePictureDataUrl">
+                                                {{data.user?.firstName.charAt(0)}}{{data.user?.lastName.charAt(0)}}
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h5 class="fs-13 mb-0"><a href="javascript: void(0);"
+                                                    class="text-body d-block">{{data.user?.firstName}}
+                                                    {{data.user?.lastName}}</a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{data.dueDate | date}}
+                                </td>
+                                <td class="status"><span class="badge  text-uppercase"
+                                        [ngClass]="{'badge-soft-success' : data.status == 3, 'badge-soft-warning' : data.status == 1, 'badge-soft-info' : data.status == 2}">{{data.statusName}}</span>
+                                </td>
+                                <td class="priority"><span class="badge text-uppercase"
+                                        [ngClass]="{'bg-danger' : data.priority == 3, 'bg-info' : data.priority == 1, 'bg-warning' : data.priority == 2}">{{data.priorityName}}</span>
+                                </td>
+                                <td class="completed"> <a href="javascript:void(0);" class="btn btn-soft-success"
+                                        (click)="markAsComplete(data)" [class.disabled]="data.status == 3">
+                                        Mark as Completed
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row justify-content-md-between align-items-md-center">
+
+                    <div class="col-sm-12 col-md-5">
+                        <div class="dataTables_info mb-2 mb-md-0" id="tickets-table_info" role="status"
+                            aria-live="polite">
+                            Showing
+                            {{this.pagingResponse.startIndex}} to
+                            {{this.pagingResponse.endIndex}} of {{this.pagingResponse.totalCount}}
+                            entries
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-5">
+                        <div class="text-md-right float-md-end listjs-pagination">
+                            <ngb-pagination [collectionSize]="this.pagingResponse.totalCount"
+                                [(page)]="this.pagingResponse.currentPage" [pageSize]="this.pagingResponse.pageSize"
+                                (pageChange)="onEventOccur($event)">
+                            </ngb-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #viewTask let-modal role="document">
+
+    <div class="card m-0">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h6>View Task</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
+                    (click)="modal.dismiss('Cross click')"></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <h5 class="card-title pe-2">{{taskView.name}} </h5>/
+                <p class="text-muted ps-2">{{taskView.calcTaskId}}</p>
+            </div>
+            <hr>
+            <p class="text-muted py-2">Details</p>
+            <div class="d-flex align-items-center justify-content-between text-nowrap">
+                <div>
+                    <p class="py-2 text-muted">Project Name</p>
+                    <p class="text-bold">{{taskView.projectDetail?.name}}</p>
+                </div>
+                <div>
+                    <p class="py-2 text-muted">Due Date</p>
+                    <div class="d-flex align-items-center text-bold">
+                        <i class="ri-calendar-event-fill fs-5 me-2"></i>
+                        <span>{{taskView.dueDate | date}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between text-nowrap align-items-center my-2">
+                <div>
+                    <p class="py-2 text-muted">Status</p>
+                    <div class="badge text-uppercase text-bold"
+                        [ngClass]="{'badge-soft-success' : taskView.status == 3, 'badge-soft-warning' : taskView.status == 1, 'badge-soft-info' : taskView.status == 2}">
+                        {{taskView.statusName}}
+                    </div>
+                </div>
+                <div>
+                    <p class="py-2 text-muted">Priority</p>
+                    <div class="badge text-uppercase text-bold"
+                        [ngClass]="{'bg-danger' : taskView.priority == 3, 'bg-info' : taskView.priority == 1, 'bg-warning' : taskView.priority == 2}">
+                        {{taskView.priorityName}}
+                    </div>
+                </div>
+                <div>
+                    <p class="py-2 text-muted">Created By</p>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-xs flex-shrink-0 mx-1">
+                            <img src="taskView.user?.profilePictureDataUrl" alt="" class="img-fluid rounded-circle"
+                                *ngIf="taskView.user?.profilePictureDataUrl">
+                            <div *ngIf="!taskView.user?.profilePictureDataUrl"
+                                class="avatar-title bg-soft-danger text-danger rounded-circle shadow">
+                                {{taskView.user?.firstName?.charAt(0)}}{{taskView.user?.lastName?.charAt(0)}}
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h5 class="fs-13 mb-0"><a href="javascript: void(0);" class="text-body text-bold d-block">
+                                    {{taskView.user?.firstName}}
+                                    {{taskView.user?.lastName}}</a>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h6 class="text-muted py-2">Description</h6>
+            <div class="bg-light p-3 view-description" [innerHTML]="taskView.description">
+            </div>
+
+        </div>
+        <div class="card-footer">
+            <div class="d-flex align-items-center justify-content-end">
+                <button type="button" class="btn btn-soft-info mx-2"
+                    (click)="openEditModal(editTask,taskView)">Edit</button>
+                <button type="button" class="btn btn-soft-danger mx-2" (click)="modal.dismiss()">Close</button>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #profile role="document" let-modal>
+    <app-viewprofile [userId]="userId"></app-viewprofile>
+</ng-template>
+
+<ng-template #editTask role="document" let-modal>
+    <div class="card m-0">
+        <div class="card-header">
+            <div class="d-flex align-items-center justify-content-between">
+                <h6>Edit Task</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"
+                    (click)="modal.dismiss('Cross click')"></button>
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="form new-task" [formGroup]="taskForm">
+                <div class="row align-items-center">
+                    <div class="col-lg-12">
+                        <div class="row">
+
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Task Name</label>
+                                <div class="input-group has-validation">
+                                    <input type="text" class="form-control" id="Name" formControlName="name"
+                                        [ngClass]="{'is-invalid custom-isInvalid': (submitted || taskForm.get('name')?.touched) && taskForm.get('name')?.errors}">
+                                    <div class="invalid-tooltip">
+                                        Task Name is required.
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mb-3">
+                                <label for="Priority-task" class="form-label">Priority</label>
+                                <ng-select [items]="priority" bindLabel="name" bindValue="value"
+                                    formControlName="priority"
+                                    [ngClass]="{'is-invalid custom-isInvalid': (submitted || taskForm.get('priority')?.touched ) && taskForm.get('priority')?.errors?.['required']}">
+                                </ng-select>
+                                <div class="invalid-tooltip">
+                                    Priority is required.
+                                </div>
+                            </div>
+                            <!-- <div class="mb-3">
+                                <label for="task-assigned" class="form-label">Assigned to</label>
+                                <ng-select [items]="assignedTo" bindLabel="fullName" bindValue="memberId"
+                                    formControlName="assigneeId"
+                                    [ngClass]="{'is-invalid custom-isInvalid': (submitted || taskForm.get('assigneeId')?.touched ) && taskForm.get('assigneeId')?.errors?.['required']}">
+                                </ng-select>
+                                <div class="invalid-tooltip">
+                                    AssignedTo is required.
+                                </div>
+                            </div> -->
+                            <div class="mb-3">
+                                <label for="task-status" class="form-label"> Status </label>
+                                <ng-select [items]="status" bindLabel="name" bindValue="value" formControlName="status"
+                                    [ngClass]="{'is-invalid custom-isInvalid': (submitted || taskForm.get('status')?.touched ) && taskForm.get('status')?.errors?.['required']}">
+                                </ng-select>
+                                <div class="invalid-tooltip">
+                                    Status is required.
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="task-duedate" class="form-label">Due Date</label>
+                                <input type="text" name="" id="" class="form-control flatpickr-input"
+                                    formControlName="dueDate" placeholder="Enter Due Date" mwlFlatpickr
+                                    [altInput]="true" [convertModelValue]="true" [dateFormat]="'YYYY-mm-dd'">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 mb-2">
+                        <label for="task-description" class="form-label">Description</label>
+                        <!-- <textarea class=" view-desc form-control" id="task-description" formControlName="description"
+                            ></textarea> -->
+                        <ckeditor [editor]="Editor" formControlName="description" class="w-100"
+                            [ngClass]="{'is-invalid custom-isInvalid': (submitted || taskForm.get('description')?.touched) && taskForm.get('description')?.errors}">
+                        </ckeditor>
+                        <div class="invalid-tooltip">
+                            Description is required.
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-soft-success mx-2" (click)="UpdateData()">Update</button>
+                <button type="button" class="btn btn-soft-danger" (click)="modal.dismiss()">Close</button>
+            </div>
+        </div>
+    </div>
+
+</ng-template>
